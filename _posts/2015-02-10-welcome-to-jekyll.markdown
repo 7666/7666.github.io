@@ -4,6 +4,7 @@ title:  "hello jekyll!"
 date:   2017-08-09 15:14:54
 categories: jekyll
 tags: jekyll
+excerpt: 当年创建 jekyll 时默认的一篇文章，没什么意义，我也一直没删除，留个纪念吧。
 mathjax: true
 ---
 
