@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "hello jekyll!"
-date:   2015-02-10 15:14:54
+date:   2017-08-09 15:14:54
 categories: jekyll
 tags: jekyll
 excerpt: 当年创建 jekyll 时默认的一篇文章，没什么意义，我也一直没删除，留个纪念吧。
@@ -28,11 +28,10 @@ Check out the [Jekyll docs][jekyll] for more info on how to get the most out of 
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-help]: https://github.com/jekyll/jekyll-help
 
-Block Mathjax 
+Block Mathjax
 
 $$
 f(x) = ax + b
 $$
 
 Inline Mathjax $a \neq b$
-

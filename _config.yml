@@ -7,7 +7,7 @@
 
 # Site settings
 title: Key
-brief-intro: Front-end Dev Engineer
+brief-intro: Knowledge is a measure, but practise is the key to it.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://7666.github.io" # the base hostname & protocol for your site
 
@@ -23,7 +23,7 @@ weibo_username: wxk1994
 #linkedIn_username: gaohaoyang
 #dribbble_username:
 
-description_footer: 本站记录我前端之旅的沿途风景！
+description_footer: 本站记录我前进之旅的沿途风景！
 
 # comments
 # two ways to comment, only choose one, and use your own short name
