@@ -1,14 +1,5 @@
 ---
 layout: post
-title: "Jekyll 搭建静态博客"
-date: 2017-08-09 15:48:00
-author: Key
-categories: jekyll
-tags: jekyll
----
-
----
-layout: post
 title:  "Jekyll 搭建静态博客"
 date:   2015-02-15 22:14:54
 categories: jekyll
