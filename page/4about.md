@@ -11,6 +11,8 @@ type: page
 
 ## 关于我
 
+- [GitHub](https://github.com/7666)
+- [微博](http://weibo.com/wxk1994)
 
 
 
