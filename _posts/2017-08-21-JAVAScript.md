@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "JAVAScript入门"
-date:   2017-08-15 08:16:54
+date:   2017-08-21 08:16:54
 categories: JAVAScript
 tags: JAVAScript
 ---
@@ -206,4 +206,164 @@ var str1 = "hello";
     console.log(a.toString());//直接变为字符串
     console.log(a.toString(2));//将数字按照2进制转换为字符串， 10100
 
+```
+
+其他类型装换为字符串的方法`toString()`,比如:
+
+```
+var a = 10;
+console.log(a.toString());
+console.log(a.toString(2));//转换为２进制，“1010”
+console.log(a.toString(8));//转化为8进制 “12”
+console.log(a.toString(10));//转化为10进制 “10”
+console.log(a.toString(16));//转化为16进制 “a”
+
+var b = false;
+console.log(b.toString());//false
+```
+
+在不知道要转换的值是不是`null`或`undefined`的情况下,还可以使用转型函数`String()`,这个函数能够将任何类型的值转换为字符串.
+
+```
+var d;
+console.log(String(d));//undefined
+var c = null;
+console.log(String(c));//null
+```
+
+#### 布尔类型
+
+boolean类型是`ECMAScript`中使用最多的一种类型,该类型只有两个字面值:`true`和`false`.
+将一个值转换为其对应的`Boolean`值,可以调用转型函数`Boolean()`.
+
+```
+console.log(true);
+console.log(false);
+console.log(Boolean("hellowitwghjjhi"));//true
+console.log(Boolean(""));//false
+console.log(Boolean(10));//true
+console.log(Boolean(-10));//true
+console.log(Boolean(10.123));//true
+console.log(Boolean(0));//false
+```
+
+![](http://oujvmc3la.bkt.clouddn.com/bool1.png)
+![](http://oujvmc3la.bkt.clouddn.com/bool2.png)
+
+#### 数值类型
+
+最基本的数值格式是10进制整数,除了以10进制表示外,整数还可以通过8进制或16进制的字面值来表示.比如:
+
+```
+var g = 016;//8进制使用'0'开头
+console.log(g);//14   控制台是以10进制输出的
+var k = 0x16;//16进制,使用'0x'开头
+console.log(k);//22
+```
+
+##### 浮点数
+
+所谓浮点数值,就是该数值中必须包含一个小数点,并且小数点后面必须至少有一位数字.
+
+```
+var a = 0.123;
+var b = .123; //不推荐
+```
+
+对于那些极大或极小的数值,可以用`e`表示法(即科学计数法)表示的浮点数值表示,比如:
+
+```
+var o = 12e2;
+console.log(o);//1200
+var p = 12e-2;
+console.log(p);//0.12
+```
+
+浮点数的最高精度是17位小数,但是在进行算数计算时其精度远远不如整数.例如:
+`0.1`+`0.2`的结果不是`0.3`,而是`0.30000000000000004`.这个小小的舍入误差会导致无法测量特定的浮点数值.
+
+##### NaN
+
+NaN,即非数值(Not a Number)是一个特殊的数值,这个数值用于表示一个本来要返回数值的操作数,未返回数值的情况(这样就不会抛出错误了).
+ECMAScript定义了`isNaN()`函数.这个函数接受一个参数,该参数可以是任何类型,而函数会帮我们确定这个参数是否`不是数值`.
+
+```
+alert(isNaN(NaN));//true  arert这个函数会让浏览器弹出一个提示窗口
+alert(isNaN(10));//false
+alert(isNaN("blue"));//true
+alert(isNaN("10"));//false
+alert(isNaN(true));//false
+```
+
+> 注意:可以看出当`isNaN()`不是数值才会是true.因为有隐式转换的存在才会把`"10"`或者`""`看成数字.
+
+#### 未定义类型(undefined)
+
+Undefined 类型只有一个值,即`undefined`.在使用var声明变量但并未对其加以初始化时,这个变量就是`undefined`,或者显式的进行`undefined`赋值操作,比如:
+
+```
+var t;
+console.log(typeof t);//undefined
+var u = undefined;
+console.log(typeof u);//underfined
+```
+
+对于尚未声明过得变量,只能执行一项操作,即使用`typeof`操作符检测其数据类型.
+
+```
+console.log(c);//出现错误，因为没有定义变量c
+console.log(typeof c); //undefined
+```
+
+#### Null类型
+
+Null类型是第二个只有一个值的数据类型,这个特殊的值是`null`.从逻辑角度来看.`null`值表示一个空对对象指针,而这也是使用`typeof`操作符检测`null`值时会返回`object`的原因,比如:
+
+```
+var a = null;
+console.log(typeof  a);//object
+```
+
+#### JAVAScript 函数
+
+函数对于任何语言来说都是一个核心的概念.通过函数可以封装任意多条语句,而且可以在任何地方.任何时候调用执行.
+
+```
+function kai(arg1,arg2){
+  return arg1 + arg2;
+}
+
+k = kai(2,3)
+console.log(k);//5
+```
+
+js中的函数有个特点:声明提升.
+函数可以定义在可调用的任何位置,在javascript引擎中解释运行该代码时,会自动将函数提升到该作用域的顶部.例如:
+
+```
+fun();
+
+function fun(){
+  console.log("fun......");
+}
+```
+
+#### 变量作用域
+
+按作用域分有两种变量:全局变量,局部变量.在JAVAScript中只有函数是用于区分作用域的.
+
+```
+var a = 10; //全局变量
+
+function fun() {
+  var b = 20;
+  //局部变量
+  //局部变量只能在指定的作用内访问
+  console.log("b = ", b);
+}
+
+//全局变量在任意位置都可以访问
+console.log("a = ", a);
+
+fun();
 ```
