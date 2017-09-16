@@ -819,7 +819,8 @@ callback 在数组每一项上执行的函数，接收三个参数：
 - currentValue, 当前项（指遍历时正在被处理那个数组项）的值。
 - index, 当前项的索引（或下标）。
 - array, 数组本身。
-- thisArg 可选参数。用来当作callback 函数内this的值的对象。
+
+thisArg 可选参数。用来当作callback 函数内this的值的对象。
 
 返回值： 一个由原数组中的每个元素调用一个指定方法后的返回值组成的新数组
 
@@ -850,4 +851,929 @@ console.log(result);
 var a15 = [10,20,30,20,80,60,34];
 console.log(a15.indexOf(20));//1
 console.log(a15.indexOf(200));//-1
+```
+
+#### filter()
+
+`arr.filter(callback[, thisArg])`
+
+callback 用来测试数组的每个元素的函数。调用时使用参数 (element, index, array)。
+
+- element, 当前项（指遍历时正在被处理那个数组项）的值。
+- index, 当前项的索引（或下标）。
+- array, 数组本身。
+
+返回true表示保留该元素（通过测试），false则不保留。该方法的返回值为通过测试的元素组成的新的数组.
+thisArg 可选。执行 callback 时的用于 this 的值。
+
+实例:
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>filter方法</title>
+  </head>
+  <body>
+
+    <script>
+      var a = [1,2,3,4,5,6,7,8,9,10];
+
+      var b = a.filter(function(element,index,array){
+        return element % 2 === 0;//其返回值为true的元素,都被添加到了其返回值中.
+        // 上面的代码等价于下面的
+        /*
+         if(element%2===0){
+          return true;
+         }else{
+          return false;
+         }
+         */
+      })
+
+      console.log(a);//[1,2,3,4,5,6,7,8,9,10],可见这个方法对原数组不会产生影响.
+      console.log(b);//[2,4,6,8,10]
+
+      //如何将一个稀疏数组变为稠密数组?
+      var x = [1,,,,,,,,4,5,6,,,,7];
+
+      var y = x.filter(function(element,index,array){
+        return element === undefined ? false : true ;//三目运算
+      })
+      console.log(y);
+    </script>
+
+  </body>
+</html>
+```
+
+#### every()和some()
+
+`array.every(callback[,thisArg])`,`array.some(callback[,thisArg])`
+
+callback 用来测试数组的每个元素的函数。调用时使用参数 (element, index, array)。   
+thisArg 可选。执行 callback 时的用于 this 的值。
+
+不同点:     
+
+- `array.every()`只有所有元素都通过函数测试，才会返回true,否则返回false.
+- `array.some()`只要其中一个元素通过了函数测试,就会返回true,全部不通过才会返回false.
+
+实例:
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>every some</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var a = [2,4,6,8,10,12,14];
+      console.log(a.every(function(element,index,array){
+        return element%2===0;
+      }));//true
+
+      var b = [2,4,6,8,10,12,13];
+      console.log(b.every(function(element,index,array){
+        return element%2===0;
+      }));//false
+
+      var a = [2,3,5,7,9,11,13];
+      console.log(a.some(function(element,index,array){
+        return element%2===0;
+      }));//true
+
+      var a = [1,3,5,7,9,11,13];
+      console.log(a.some(function(element,index,array){
+        return element%2===0;
+      }));//false
+
+    </script>
+
+  </body>
+</html>
+```
+
+#### reduce()
+
+`arr.reduce(callback,[initialValue])`              
+callback  执行数组中每个值的函数，包含四个参数:
+
+- previousValue   上一次调用回调返回的值，或者是提供的初始值（initialValue）        
+- currentValue   数组中当前被处理的元素          
+- index   当前元素在数组中的索引         
+- array   调用 reduce 的数组
+
+initialValue  作为第一次调用 callback 的第一个参数。   
+返回一个值。  
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>reduce</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var a = [1,2,3,4,5,6,7,8,9,10];
+
+      var b = a.reduce(function(initvalue,element,index,array){
+        return initvalue + element;//在不提供初始值的情况下,initvalue从数组的第一个值开始.
+        //本次的返回值会赋给initvalue
+      })
+      console.log(b);//55
+
+      //当然你也可以设置初始值,如下:
+
+      var c = a.reduce(function(initvalue,element,index,array){
+        return initvalue * element;
+      },1)//在这里设置初始值
+      console.log(c);//3628800
+    </script>
+
+  </body>
+</html>
+```
+
+## JAVAScript
+
+JAVAScript与HTML之间的的交互是通过事件实现的.事件就是文档或浏览器窗口中发生的一些特定的交互瞬间.可以使用侦听器(或处理程序)来预定事件,以便事件发生时执行相应的代码.   
+JAVAScript事件的三要素:事件源, 事件, 事件处理程序三部分组成.
+
+- 事件源,指的是发生事件的对象
+- 事件,指的是做了什么动作
+- 事件处理程序,发生事件时要做的事
+
+### 事件流
+
+如果你单击了某个按钮,他们会认为不仅仅发生在按钮上.换句话说,在单击按钮的同时,你也单击了按钮的容器元素,甚至你也单击了整个页面.事件流描述的是从页面中接受时间的顺序.有意思的是ie和netspace开发团队提出了差不多是完全相反的事件流的概念.ie的事件流是事件冒泡流,而netspace是事件捕获流.
+
+![](http://oujvmc3la.bkt.clouddn.com/dom.png)
+
+#### 事件冒泡
+
+ie的事件流叫做事件冒泡(event bubbling),即时间开始时由最具体的元素(文档中嵌套层次最深的那个节点)接受,然后逐级向上传播到较为不具体的节点(文档).
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>Event Bubbling Example</title>
+</head>
+<body>
+<div id="myDiv">Click Me</div>
+</body>
+</html>
+```
+
+如果你单击了页面中的`<div>`元素,那么这个click事件会按照如下顺序传播:
+
+1. `<div>`
+2. `<body>`
+3. `<html>`
+4. `document`
+
+也就是说,click事件首先是在`<div>`元素上发生,而这个元素就是我们单击的元素.然后,click事件沿DOM树向上传播,在每一级节点上都会发生,直至传播到`document`对象.
+
+#### 事件捕获
+
+事件捕获的思想是不太具体的节点应该更早的接收到事件,而更具体的节点应该最后接收到事件.     
+如果仍以前面的HTML页面作为演示事件捕获的例子,那么单击`<div>`元素就会以下列顺序触发click事件.
+
+1. `document`
+2. `<html>`
+3. `<body>`
+4. `<div>`
+
+在事件捕获过程中,document对象首先接收到click事件,然后事件沿DOM树依次向下,一直传播到时间的实际位置,即`<div>`元素.
+
+> 由于老版本的浏览器不支持,因此很少有人使用事件捕获.不过我们可以放心的使用事件冒泡.
+
+#### DOM事件流
+
+DOM2级事件”规定的事件流包括三个阶段:事件捕获阶段、处于目标阶段和事件冒泡阶段。首
+先发生的是事件捕获,为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是冒泡阶
+段,可以在这个阶段对事件做出响应。
+
+### 事件处理程序
+
+事件就是用户或浏览器自身执行的某种动作。诸如 click 、 load 和 mouseover ,都是事件的名字。而响应某个事件的函数就叫做事件处理程序(或事件侦听器)。事件处理程序的名字以 "on" 开头,因此click 事件的事件处理程序就是 onclick , load 事件的事件处理程序就是 onload 。为事件指定处理程序的方式有好几种。
+
+#### HTML事件处理程序
+
+某个元素支持的每种事件,都可以使用一个与相应事件处理程序同名的 HTML 特性来指定。这个
+特性的值应该是能够执行的 JavaScript 代码。例如,要在按钮被单击时执行一些 JavaScript,可以像下面
+这样编写代码:
+
+```
+<input type="button" value="Click Me" onclick="alert('Clicked')" />
+```
+
+当单击这个按钮时,就会显示一个警告框。这个操作是通过指定 onclick 特性并将一些 JavaScript
+代码作为它的值来定义的。
+
+实例:
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>原生事件event</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .one {
+        width: 200px;
+        height: 200px;
+        background: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function clickDiv(){
+      alert("我被点了。。。");
+    }
+    </script>
+
+    <!-- html中添加事件  -->
+    <button id="btn" onclick="alert('我被点了。。。')">点我</button>
+    <div class="one" onclick="clickDiv()"></div>
+
+  </body>
+</html>
+```
+
+#### DOM0级事件处理程序
+
+通过 JavaScript 指定事件处理程序的传统方式,就是将一个函数赋值给一个事件处理程序属性。这种为事件处理程序赋值的方法是在第四代 Web 浏览器中出现的,而且至今仍然为所有现代浏览器所支持。原因一是简单,二是具有跨浏览器的优势。要使用 JavaScript 指定事件处理程序,首先必须取得一个要操作的对象的引用。
+
+每个元素(包括 window 和 document )都有自己的事件处理程序属性,这些属性通常全部小写,
+例如 onclick 。将这种属性的值设置为一个函数,就可以指定事件处理程序,如下所示:
+
+```
+var btn = document.getElementById("myBtn");
+btn.onclick = function(){
+alert("Clicked");
+};
+```
+
+也可以删除通过 DOM0 级方法指定的事件处理程序,只要像下面这样将事件处理程序属性的值设
+置为 null 即可:
+
+```
+btn.onclick = null;//删除事件处理程序
+```
+
+将事件处理程序设置为 null 之后,再单击按钮将不会有任何动作发生。
+
+实例:
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>event事件注册</title>
+  </head>
+  <body>
+    <button id="btn1">按钮1</button>
+    <button id="btn2">按钮2</button>
+
+    <script type="text/javascript">
+
+    //通过document.getElementById方法得到DOM对象
+    var btn1 = document.getElementById("btn1");
+    var btn2 = document.getElementById("btn2");
+
+    //使用DOM0级的方式注册一个事件处理程序
+    /*
+    缺点：
+    1. 同一个事件，只能注册一个事件处理程序！！！！
+    2. 移除一个事件程序，不方便
+    */
+    btn1.onclick = function () {
+      console.log("%c按钮1被点击了xxxxx", "color: red;font-size:50px");
+
+      // 移除一个事件处理程序
+      btn1.onclick = null;
+    };
+
+
+    btn2.onclick = function () {
+      console.log("%c按钮2被单击了", "color: red;font-size:50px");
+    };
+
+    btn2.ondblclick = function () {
+      console.log("%c按钮2被双击了", "color: green;font-size:50px");
+    };
+
+
+    </script>
+
+  </body>
+</html>
+```
+
+#### DOM2级事件处理程序
+
+“DOM2 级事件”定义了两个方法,用于处理指定和删除事件处理程序的操作: `addEventListener()`
+和 `removeEventListener()` 。所有 DOM 节点中都包含这两个方法,并且它们都接受 3 个参数:要处
+理的事件名、作为事件处理程序的函数和一个布尔值。最后这个布尔值参数如果是 true ,表示在捕获
+阶段调用事件处理程序;如果是 false ,表示在冒泡阶段调用事件处理程序。
+要在按钮上为 click 事件添加事件处理程序,可以使用下列代码:
+
+```
+var btn = document.getElementById("myBtn");
+btn.addEventListener("click", function(){
+alert(this.id);
+}, false);
+```
+
+上面的代码为一个按钮添加了 onclick 事件处理程序,而且该事件会在冒泡阶段被触发(因为最
+后一个参数是 false )。与 DOM0 级方法一样,这里添加的事件处理程序也是在其依附的元素的作用域
+中运行。使用 DOM2 级方法添加事件处理程序的主要好处是可以添加多个事件处理程序。来看下面的
+例子。
+
+```
+var btn = document.getElementById("myBtn");
+btn.addEventListener("click", function(){
+alert(this.id);
+}, false);
+btn.addEventListener("click", function(){
+alert("Hello world!");
+}, false);
+```
+
+这里不推荐使用匿名函数来添加事件,会导致`removeEventListener()`,因为传入`removeEnventListener()`的事件处理函数必须和`addEnventListener()`一致.所以应该如下所示:
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>DOM2级event</title>
+</head>
+
+<body>
+
+  <button id="btn">按钮</button>
+
+  <script type="text/javascript">
+    var btn = document.getElementById("btn");
+
+    function handler1() {
+      console.log("%c 单击111", "color:red;font-size:40px");
+    }
+
+    function handler2() {
+      console.log("%c 单击222", "color:red;font-size:40px");
+
+      // 移除click事件的第一个事件处理程序
+      // 要想移除处理函数，那么该函数必须有名字(在指定的作用域中可访问到)
+      btn.removeEventListener('click', handler1, false);
+      btn.removeEventListener('click', handler2, false);
+    }
+
+    btn.addEventListener('click', handler1, false);
+    btn.addEventListener('click', handler2, false);
+  </script>
+
+</body>
+
+</html>
+```
+
+> DOM2级的事件执行顺序和注册顺序相同.
+
+#### ie的事件处理程序
+
+IE 实现了与 DOM 中类似的两个方法: `attachEvent()` 和 `detachEvent()` 。这两个方法接受相同的两个参数:事件处理程序名称与事件处理程序函数。由于 IE8 及更早版本只支持事件冒泡,所以通过`attachEvent() `添加的事件处理程序都会被添加到冒泡阶段。
+要使用 `attachEvent()` 为按钮添加一个事件处理程序,可以使用以下代码。
+
+```
+var btn = document.getElementById("myBtn");
+btn.attachEvent("onclick", function(){
+alert("Clicked");
+});
+```
+
+> 注意: `attachEvent()`中的第一个参数为`onclick`,而不是DOM二级中的`click`.
+还有在同一个元素上注册相同的事件,其执行顺序和注册顺序相反,这也是和DOM2级不同的.
+DOM0级被认为是元素的方法,所以其this引用当前的元素;  IE事件处理程序的this等于window.
+
+使用 `attachEvent()` 添加的事件可以通过 `detachEvent()` 来移除,条件是必须提供相同的参数。
+与 DOM 方法一样,这也意味着添加的匿名函数将不能被移除。不过,只要能够将对相同函数的引用传
+给 `detachEvent()` ,就可以移除相应的事件处理程序。例如:
+
+```
+var btn = document.getElementById("myBtn");
+var handler = function(){
+alert("Clicked");
+};
+btn.attachEvent("onclick", handler);
+//这里省略了其他代码
+btn.detachEvent("onclick", handler);
+```
+
+这个例子将保存在变量 handler 中的函数作为事件处理程序。因此,后面的 `detachEvent()` 可以
+使用相同的函数来移除事件处理程序
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>DOM2级event</title>
+</head>
+<body>
+
+  <button id="btn">按钮</button>
+
+  <script type="text/javascript">
+    var btn = document.getElementById("btn");
+
+    function handler1() {
+      console.log("%c 单击111", "color:red;font-size:40px");
+      btn.detachEvent('onclick', handler2);
+    }
+
+    function handler2() {
+      console.log("%c 单击222", "color:red;font-size:40px");
+    }
+
+    /*
+    ie： DOM2级的事件处理
+    ie: 处理程序的执行顺序是和注册顺序相反的
+    */
+    btn.attachEvent('onclick', handler1);
+    btn.attachEvent('onclick', handler2);
+
+    document.attachEvent('onclick', function(){
+      console.log("doucment被触发。。。。");
+    });
+
+
+  </script>
+
+</body>
+
+</html>
+```
+
+#### 跨浏览器的事件处理程序
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+
+  <button id="btn">btn</button>
+  <button type="button" name="button" id="btn1"></button>
+
+  <script type="text/javascript">
+    /*
+        功能：兼容浏览器的事件注册函数
+        @elem, 指定要注册的DOM对象
+        @type, 指定要注册的事件名称
+        @handler, 指定的事件处理函数
+        */
+
+    function addEvent(elem, type, handler) {
+
+      //判断是否支持该方法，支持就为true，不支持就为false
+      if (elem.addEventListener) {
+        elem.addEventListener(type, handler, false);
+      } else if (elem.attachEvent) {
+        elem.attachEvent('on' + type, handler);
+      } else {
+        elem['on' + type] = handler;
+      }
+    }
+
+    var btn = document.getElementById("btn");
+    var deal = function() {
+      console.log("btn 点击。。。。。");
+    }
+    addEvent(btn, 'click', deal);
+
+    addEvent(btn, 'dblclick', function() {
+      console.log("btn 双击。。。。。");
+    });
+
+
+    // 编写 removeEvent来移除事件！！！！！
+    function removeEvent(elem, type, handler) {
+      if (elem.removeEventListener) {
+        elem.removeEventListener(type, handler, false);
+      } else if (elem.detachEvent) {
+        elem.detachEvent('on' + type, handler);
+      } else {
+        elem['on' + type] = null;
+      }
+    }
+
+    removeEvent(btn, 'click', deal)
+  </script>
+
+</body>
+
+</html>
+```
+
+### 事件对象
+
+在触发DOM上的某个事件时,会产生一个事件对象event,这个对象中包含着所有与事件有关的信息.包括导致事件的元素,事件的类型以及其他与特定事件相关的信息.例如,鼠标操作导致的事件对象中,会包括鼠标的位置,而键盘操作导致的事件对象中,会包含与按下键的信息.所有浏览器都支持event对象,但支持方式不同.
+
+#### DOM中的事件对象
+
+兼容DOM的浏览器都会将一个event对象传入到事件处理程序中.无论指定事件处理程序使用的是什么方法(DOM0级或DOM2级),都会传入event对象.来看下面的例子:
+
+```
+var btn = document.getElementById("myBtn");
+btn.onclick = function(event){
+alert(event.type);//"click"
+};
+btn.addEventListener("click", function(event){
+alert(event.type);//"click"
+}, false);
+```
+
+这个例子的两个事件处理程序都会弹出一个警告框,显示由event.type属性表示的事件类型.这个属性始终都会包含被触发的事件类型.
+
+|------|-------|
+|属性|说明|
+|event.type|被触发的事件类型|
+|this|注册该事件处理程序的元素|
+|event.currentTarget|注册该事件处理函数的元素|
+|event.target|触发该事件源头的元素|
+|event.stopPropagation()|阻止事件的传递|
+|event.preventDefault()|阻止默认行为|
+|event.stopImmediatePropagation()|停止冒泡,并且停止后续所有的事件处理程序|
+
+键盘事件对象
+
+|------|-------|
+|event.key|具体按下哪个键,识别大小写|
+|event.code|按下的是哪个键,不识别大小写|
+
+鼠标事件对象
+
+|---------|---------|
+|event.screenX|点击时鼠标处于屏幕的X轴位置|
+|event.screenY|点击时鼠标处于屏幕的Y轴的位置|
+|event.clientX|点击时鼠标处于浏览器可视窗口的X轴位置|
+|event.clientY|点击时鼠标处于浏览器可视窗口的Y轴位置|
+|event.pageX|点击时鼠标处于页面的X轴位置|
+|event.pageY|点击时鼠标处于页面的Y轴位置|
+|event.which|鼠标点击的是哪个键,左(1),中(2),右(3)|
+|event.button|鼠标点击的是哪个键,左(0),中(1),右(2)|
+
+手机触摸
+
+|--------|-------|-------|
+|事件|touchstart|手指放上去|
+|事件|touchmove|手指移动|
+|事件|touchend|手指离开|
+
+手机触摸实例:
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>touch</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+    var startX,startY,endX,endY,X,Y;
+      document.addEventListener('touchstart',function(event){
+         window.startX = event.touches[0].clientX;
+         window.startY = event.touches[0].clientY;
+      },false);
+      document.addEventListener('touchend',function(event){
+         window.endX = event.changedTouches[0].clientX;
+         window.endY = event.changedTouches[0].clientY;
+         X = startX - endX;
+         Y = startY - endY;
+         console.log(X);
+         console.log(Y);
+         if(Math.abs(X)>Math.abs(Y)){
+           if(X>0){
+             alert('向左滑动');
+           }
+           if(X<0){
+             alert('向右滑动');
+           };
+         };
+          if(Math.abs(X)<=Math.abs(Y)){
+            if(Y>0){
+              alert('向上滑动');
+            };
+            if(Y<0){
+              alert('向下滑动');
+            };
+          };
+
+      },false);
+
+    </script>
+
+  </body>
+</html>
+
+```
+
+#### ie中的事件对象
+
+与访问DOM中的event对象不同,要访问IE中的event对象有几种不同的方式,取决于指定事件处理程序的方法.在使用DOM0级方法添加事件处理程序时,event对象作为window对象的一个属性存在.
+
+```
+var btn = document.getElementById("myBtn");
+btn.onclick = function(){
+var event = window.event;
+alert(event.type);
+//"click"
+};
+```
+
+在此,我们通过window.event取得了event对象,并检测了被触发事件的类型(IE中的type属性与DOM中的type属性是相同的).可是,如果事件处理程序是使用`attachEvent()`添加的,那么就会有一个event对象作为参数被传入事件处理程序函数中,如下所示:
+
+```
+var btn = document.getElementById("myBtn");
+btn.attachEvent("onclick", function(event){
+alert(event.type);
+//"click"
+});
+```
+
+在像这样使用`attachEvent()`的情况下,也可以通过window对象来访问event对象,就像使用DOM0级方法一样.不过为方便起见,同一个对象也会作为参数传递.
+
+IE的event对象同样也包含与创建它的事件相关的属性和方法.其中很多属性和方法都有对应的或者相关的DOM属性和方法.与DOM的event对象一样,这些属性和方法也会因为事件类型不同而不同,但所有事件对象都会包含下表所类的属性和方法.
+
+|---------|---------|
+|cancelBubble|默认值为 false ,但将其设置为 true 就可以取消事件冒泡(与DOM中的 stopPropagation() 方法的作用相同)|
+|returnValue|默认值为 true ,但将其设置为 false 就可以取消事件的默认行为(与DOM中的 preventDefault() 方法的作用相同)|
+|srcElement|事件的目标(与DOM中的 target 属性相同)|
+|type|被触发的事件的类型|
+
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ie中的event对象</title>
+  </head>
+  <body>
+
+    <button id="btn">按钮</button>
+    <a href="https://www.baidu.com" id="ln" target="_blank">超链接</a>
+
+    <script type="text/javascript">
+    console.log(window);
+
+    var btn = document.getElementById("btn");
+    var ln = document.getElementById("ln");
+
+    btn.onclick = function () {
+
+      //ie低版本中处理函数中，没有event对象
+      //所以只能有window.event来代替
+      // console.log(window.event);
+
+      console.log(this);
+      //ie 低版本中 window.event对象上，没有target,currentTarget
+      //使用srcElement取代target
+
+
+      //停止事件冒泡！！！！
+      //cancelBubble 取代 stopPropagation()
+      window.event.cancelBubble = true;
+    }
+
+    //document 在低版本ie onclick不行
+    document.attachEvent('onclick', function(){
+      console.log("document.....");
+
+      // window.event.srcElement是触发事件的源头
+      console.log(window.event.srcElement);
+    },false);
+
+
+    ln.onclick = function () {
+
+      // window.event.returnValue 的值来决定是否取消默认行为，
+      // 和 event.preventDefault() 功能一致
+      window.event.returnValue = false;
+    }
+    </script>
+
+
+  </body>
+</html>
+
+```
+
+>需要注意的是:`this`和`event.srcElement`在DOM0级中是相同的,但是用`attachEvent()`添加的事件处理程序,`this`和`event.srcElement`是不同的.
+
+#### 兼容浏览器的事件对象(基本)
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>兼容浏览器的事件对象(基本)</title>
+</head>
+
+<body>
+
+
+  <button id="btn">按钮</button>
+
+  <script type="text/javascript">
+    var btn = document.getElementById("btn");
+
+    btn.onclick = function(event) {
+      // 使用或运算或者条件判断来 实现event的兼容
+      var event = event || window.event;
+      console.log(event.target || event.srcElement);
+      event.stopPropagation ? event.stopPropagation() : event.cancelBubblue = true;
+    }
+
+  </script>
+
+
+</body>
+</html>
+```
+## DOM对象模型
+
+DOM为文档提供了结构化表示,并定义了如何通过脚本来访问文档结构.整个文档就是一棵树,树的根是`document`
+
+![](http://oujvmc3la.bkt.clouddn.com/dom.jpg)
+
+### node节点
+
+整个文档全都是由节点构成的,包括元素(HTML标签),文字节点,属性节点.     
+每个节点都有一个nodeType属性,用于表明节点的类型.节点类型由在Node类型中定义的下列12个数值常量来表示,任何节点类型必居其一:
+
+- Node.ELEMENT_NODE(1)；标签节点
+- Node.ATTRIBUTE_NODE(2)；
+- Node.TEXT_NODE(3)；文本节点
+- Node.CDATA_SECTION_NODE(4)；
+- Node.ENTITY_REFERENCE_NODE(5)；
+- Node.ENTITY_NODE(6)；
+- Node.PROCESSING_INSTRUCTION_NODE(7)；
+- Node.COMMENT_NODE(8)；
+- Node.DOCUMENT_NODE(9)；document节点
+- Node.DOCUMENT_TYPE_NODE(10)；
+- Node.DOCUMENT_FRAGMENT_NODE(11)；
+- Node.NOTATION_NODE(12)。
+
+>nodeName可以获得节点名称.
+
+### 获得节点
+
+- document.getElementById(“id”) id 为标记的 #id
+- document.getElementsByTagName(“div”) 所有的div div
+- document.getElementsByClassName(“test”) 所有类名为 test
+
+id不能指定一个范围去查找元素,但是剩下的两个可以,如下:
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    我是body
+    <!-- DOM操作，节点操作，元素操作  -->
+
+
+    <button id="btn">按钮</button>
+
+    <ul id="items">
+      <li class="item">1</li>
+      <li class="item">2</li>
+      <li class="item">3</li>
+      <li class="item">4</li>
+      <li class="item">5</li>
+      <li>6</li>
+      <li>7</li>
+    </ul>
+
+    <ul>
+      <li class="item">11</li>
+      <li class="item">22</li>
+      <li class="item">33</li>
+    </ul>
+
+    <script type="text/javascript">
+    //获得某个ul
+    var items = document.getElementById("items");
+    //getElementsByClassName 可以指定在某个范围内去查找元素
+    console.log(items.getElementsByClassName("item"));//5
+
+    // 通过 tagName 标签名
+    console.log(document.getElementsByTagName("li"));//10
+    console.log(items.getElementsByTagName("li"));//7
+
+    </script>
+
+
+</body>
+</html>
+
+```
+
+> 无论返回多少个节点,返回的都是伪数组,它是能够通过`[0]`位置索引,还有`length`,但是他没有数组的那些方法.
+
+### 节点访问
+
+#### 父节点
+
+`var parent = obj.parentNode;`
+
+#### 兄弟节点
+
+`nextSibling`,`nextElementSibling`都是下一个兄弟,但是`nextSibling`会将文本节点识别为兄弟,而`nextElementSibling`只会将标签识别为兄弟.    
+`previousSibling`,`previousElementsibling`都是上一个兄弟,这两个和上面的相同.
+
+```
+//兼容写法
+var one = document.getElementById('one');
+var next = one.nextElementSibling || one.nextSibling;
+```
+
+#### 第一个节点和最后一个节点
+
+`firstChild`,`lastChild`:会识别文本节点
+
+`firstElementChild`,`lastElementChild`:只识别标签
+
+```
+兼容写法
+ var par = document.getElementById("par");
+ var fist = par.firstElementChild || par.firstChild;
+ var last = par.lastElementChild || par.lastChild;
+```
+
+#### 父元素的所有子节点
+
+`childNodes`: 包含文本节点，比如空格和换行      
+`children`: 仅仅包含标签,不用考虑兼容性，都适用。
+
+```
+var par = document.getElementById("par");
+var childs = par.children;
+var childs1 = par.childNodes;
+//其中childs.length 要大于等于childs.length
+```
+
+### DOM节点操作
+
+#### 创建节点
+
+```
+var test = document.createElement("div");
+  var test1 = document.createElement("span");
+  创建div节点和span节点
+```
+
+#### 添加节点
+
+```
+a.appendChild(node), 将node节点添加到 a的末尾，并且node节点是a节点子节点
+var a = document.getElementById("par");
+var node = document.createElement("div");
+a.appendChild(node); //a节点末尾添加
+
+a.insertBefore(newnode, refnode), 将newnode节点插入到a节点的refnode之前。
+var a = document.getElementById("par");
+var node = document.createElement("div");
+a.insertBefore(node, a.fistElementChild);// 插入节点
+a.insertBefore(node, null); //类似于appenchild, 插入到末尾
 ```
