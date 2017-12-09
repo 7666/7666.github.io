@@ -19,7 +19,7 @@
       code_link: 'https://codepen.io/7666/pen/wPVrdG',
       title: 'first-demo 我的第一个demo！',
       core_tech: 'JavaScript',
-      description: 'first-demo 我的第一个demo！算法详情见 <a href ="#">这里</a>。'
+      description: 'first-demo 我的第一个demo！算法详情见 <a href ="http://wangkai.xyz/2017/10/27/demo/">这里</a>。'
     },
   ];
 
