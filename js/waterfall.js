@@ -15,7 +15,7 @@
   var demoContent = [
     {
       demo_link: 'https://codepen.io/7666/pen/wPVrdG',
-      img_link: 'https://ooo.0o0.ooo/2016/11/24/5836d81f48cd2.png',
+      img_link: 'http://oujvmc3la.bkt.clouddn.com/helloworld.jpg',
       code_link: 'https://codepen.io/7666/pen/wPVrdG',
       title: 'first-demo 我的第一个demo！',
       core_tech: 'JavaScript',
