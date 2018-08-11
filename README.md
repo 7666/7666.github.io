@@ -1,2 +1,2 @@
-# 7666.github.io
-[博客地址](http://wangkai.xyz)
+# 技术博客
+[博客地址](https://blog.loong.io)
